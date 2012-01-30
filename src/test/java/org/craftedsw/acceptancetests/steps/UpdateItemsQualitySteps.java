@@ -1,4 +1,4 @@
-package org.craftedsw.jbehave.steps;
+package org.craftedsw.acceptancetests.steps;
 
 import junit.framework.Assert;
 
