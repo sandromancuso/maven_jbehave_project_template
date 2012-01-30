@@ -38,16 +38,19 @@ public class JBehaveStoriesTestSuite extends ConfigurableEmbedder {
 	
 	@JBehaveParameterized.JBehaveStoryPaths
 	public static Collection<String> storyPaths() {
-		String testName = System.getProperty(SINGLE_JBEHAVE_TEST_PARAMETER);
-		String storyPattern;
-		if (testName != null) {
-			storyPattern = "**/" + testName + ".story";
-		} else {
-			storyPattern = "**/*.story";
-		}
-		return new StoryFinder().findPaths(codeLocationFromClass(JBehaveStoriesTestSuite.class), storyPattern, "**/excluded*.story");
+		return new StoryFinder().findPaths(
+					codeLocationFromClass(JBehaveStoriesTestSuite.class), 
+					storyPattern(), 
+					"**/excluded*.story");
 	}
 	
+	private static String storyPattern() {
+		String testName = System.getProperty(SINGLE_JBEHAVE_TEST_PARAMETER);
+		return (testName != null) 
+					? "**/" + testName + ".story"
+					: "**/*.story";
+	}
+
 	public JBehaveStoriesTestSuite(final String jbehaveStoryPath) {
 		this.storyPath = jbehaveStoryPath;
 	}
