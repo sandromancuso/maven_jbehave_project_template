@@ -1,10 +1,12 @@
 package org.craftedsw.acceptancetests;
 
+import static java.lang.reflect.Modifier.isPublic;
+import static java.lang.reflect.Modifier.isStatic;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,8 +64,8 @@ public class JBehaveParameterized extends Suite {
 
 	public JBehaveParameterized(final Class<?> clazz) throws Throwable {
 		super(clazz, Collections.<Runner>emptyList());
-		final Collection<String> parametersList = getParametersList(getTestClass());
-		for (final String jbehaveStoryPath : parametersList) {
+		Collection<String> parametersList = getParametersList(getTestClass());
+		for (String jbehaveStoryPath : parametersList) {
 			runners.add(new TestClassRunnerForJBehaveStory(getTestClass().getJavaClass(), jbehaveStoryPath));
 		}
 	}
@@ -77,11 +79,11 @@ public class JBehaveParameterized extends Suite {
 		return (Collection<String>) getParametersMethod(clazz).invokeExplosively(null);
 	}
 	
-	private FrameworkMethod getParametersMethod(final TestClass testClass) throws Exception {
-		final List<FrameworkMethod> methods = testClass.getAnnotatedMethods(JBehaveStoryPaths.class);
-		for (final FrameworkMethod each : methods) {
-			final int modifiers = each.getMethod().getModifiers();
-			if (Modifier.isStatic(modifiers) && Modifier.isPublic(modifiers)) {
+	private FrameworkMethod getParametersMethod(TestClass testClass) throws Exception {
+		List<FrameworkMethod> methods = testClass.getAnnotatedMethods(JBehaveStoryPaths.class);
+		for (FrameworkMethod each : methods) {
+			int modifiers = each.getMethod().getModifiers();
+			if (isStatic(modifiers) && isPublic(modifiers)) {
 				return each;
 			}
 		}

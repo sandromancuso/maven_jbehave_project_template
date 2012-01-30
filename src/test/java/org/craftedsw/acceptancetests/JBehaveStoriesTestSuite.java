@@ -38,8 +38,8 @@ public class JBehaveStoriesTestSuite extends ConfigurableEmbedder {
 	
 	@JBehaveParameterized.JBehaveStoryPaths
 	public static Collection<String> storyPaths() {
-		final String testName = System.getProperty(SINGLE_JBEHAVE_TEST_PARAMETER);
-		final String storyPattern;
+		String testName = System.getProperty(SINGLE_JBEHAVE_TEST_PARAMETER);
+		String storyPattern;
 		if (testName != null) {
 			storyPattern = "**/" + testName + ".story";
 		} else {
@@ -63,12 +63,12 @@ public class JBehaveStoriesTestSuite extends ConfigurableEmbedder {
 	
 	@Override
 	public Configuration configuration() {
-		final Class<? extends Embeddable> embeddableClass = this.getClass();
+		Class<? extends Embeddable> embeddableClass = this.getClass();
 		// Start from default ParameterConverters instance
-		final ParameterConverters parameterConverters = new ParameterConverters();
+		ParameterConverters parameterConverters = new ParameterConverters();
 		// factory to allow parameter conversion and loading from external
 		// resources (used by StoryParser too)
-		final ExamplesTableFactory examplesTableFactory = new ExamplesTableFactory(
+		ExamplesTableFactory examplesTableFactory = new ExamplesTableFactory(
 				new LocalizedKeywords(), new LoadFromClasspath(embeddableClass), parameterConverters);
 		// and add custom converters
 		parameterConverters.addConverters(new ParameterConverters.DateConverter(new SimpleDateFormat("dd-MM-yyyy")),
@@ -94,7 +94,7 @@ public class JBehaveStoriesTestSuite extends ConfigurableEmbedder {
 	@Test
 	// Run all stories as separate tests
 	public void run() throws Throwable {
-		final Embedder embedder = configuredEmbedder();
+		Embedder embedder = configuredEmbedder();
 		try {
 			embedder.runStoriesAsPaths(Arrays.asList(storyPath));
 		} finally {
